@@ -25,11 +25,10 @@ application = Flask(__name__)
 app = application
 
 load_dotenv()  # This loads variables from .env into environment variables
-
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 # Secret key for session management
-app.secret_key = '69'
+app.secret_key = os.getenv("SECRET_KEY")
 
 oauth = OAuth(app)
 google = oauth.register(
