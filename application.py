@@ -390,8 +390,7 @@ def upload_ct_scan():
             img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
             img_array = img_array / 255.0  # Rescale the image
 
-            # # Simulate some processing delay here before predicting
-            # time.sleep(5)  # Wait for 5 seconds before starting model prediction (adjust as needed)
+            
 
             # Extract features using the DenseNet model
             img_features = densenet_model.predict(img_array)  # Use DenseNet for feature extraction
@@ -403,8 +402,8 @@ def upload_ct_scan():
             predicted_class = np.argmax(prediction, axis=1)
             class_label = ['Mild Demented', 'Moderate Demented', 'Non Demented', 'Very Mild Demented']
 
-            # Simulate more processing time (you can adjust the time here as needed)
-            time.sleep(3)  # Add another delay to simulate time spent on prediction
+            
+            time.sleep(3)  
 
             # Return prediction result
             return render_template('ct_scan_result.html', diagnosis=class_label[predicted_class[0]])
