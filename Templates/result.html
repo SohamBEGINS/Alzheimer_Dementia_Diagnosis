@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="/static/styles2.css">
+    <script>
+        function generatePDF() {
+          var pdfUrl = "/trigger_pdf_generation/{{ pdf_filename }}";
+          console.log("Redirecting to PDF URL:", pdfUrl); // Debugging line
+          // Open the PDF in a new browser tab
+          window.open(pdfUrl, '_blank');
+}
+
+
+        
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <p>{{ diagnosis }}</p>
+        
+        <!-- Ask if the user wants to generate the PDF -->
+        <p>Would you like to download the medical report as a PDF?</p>
+        
+        <!-- Button to confirm PDF generation -->
+        <button onclick="generatePDF()">Yes, Generate PDF</button>
+        
+        <a href="/dashboard">Go Back</a>
+    </div>
+</body>
+</html>

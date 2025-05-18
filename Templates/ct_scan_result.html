@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="h_1">Diagnosis Result</h1>
+
+        <div class="result-box">
+            <p class="result-text">The MRI scan indicates the following:</p>
+            <h2 class="diagnosis">
+                {{ diagnosis }}
+            </h2>
+            <p class="diagnosis-summary">
+                {% if diagnosis == "Mild Demented" %}
+                    <b>The MRI scan indicates that you may be in the early stages of dementia, showing mild memory loss and confusion. It is important to monitor these symptoms and consult a healthcare professional for further evaluation and support.</b>
+                {% elif diagnosis == "Moderate Demented" %}
+                    <b>The MRI scan suggests that you are experiencing moderate dementia, characterized by severe memory impairment, difficulty with communication, and a need for assistance with daily tasks. We recommend seeking professional care and considering appropriate interventions.</b>
+                {% elif diagnosis == "Non Demented" %}
+                    <b>As per the MRI scan provided, you are safe and no signs of dementia were detected but that does not rule out Alzheimer's.For a better clarity go to the medical info page and get the test done on the basis of past medical data or better still contact a healthcare professional.</b>
+                    <div class="back-button-container">
+                        <a href="{{ url_for('get_medical_info') }}" class="gradient-button">Go to Model Info</a>
+                    </div>
+                {% elif diagnosis == "Very Mild Demented" %}
+                    <b>The MRI scan shows early signs of dementia with mild memory issues and occasional confusion. It is important to monitor the symptoms and seek guidance from a healthcare professional for appropriate management.</b>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="back-button-container">
+            <a href="{{ url_for('dashboard') }}" class="gradient-button">Go Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

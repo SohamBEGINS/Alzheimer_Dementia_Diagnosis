@@ -1,0 +1,325 @@
+/* General styles */
+.sign_login
+{
+    font-family: 'Poppins', sans-serif;
+    background: url('/static/images/lns.png');
+    background-size:cover;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    display:flex;
+    justify-content: center;
+    
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: black;
+    transition: background-color 2s ease-in-out;
+    overflow: hidden;
+}
+
+ /* Flash Message Styling */
+ .flash-message {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.flash-success {
+    color: white;
+    background-color: green;
+    border: 1px solid darkgreen;
+}
+
+.flash-error {
+    color: white;
+    background-color: red;
+    border: 1px solid darkred;
+}
+
+/* Main container */
+.main-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+}
+
+/* Intro content */
+.intro-content, .description-content {
+    z-index: 10;
+    max-width: 80%;
+    line-height: 1.5;
+    opacity: 1;
+    transition: opacity 1.5s ease-in-out;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* Elegant button style */
+#tryButton {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #000;
+    transition: transform 0.3s, background-color 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#tryButton:hover {
+    transform: scale(1.1);
+    background-color: #e6e6e6;
+}
+
+/* Description content */
+.description-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 2.5s ease-in-out, transform 2.5s ease-in-out;
+}
+
+#description {
+    margin: 20px 0;
+    font-size: 30px;
+    line-height: 1.8;
+    color: #f0f0f0;
+    font-weight: 500;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+#loginBtn, #signupBtn , #googleSignInBtn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #000;
+    transition: transform 1s, background-color 1s;
+    font-weight: bold;
+}
+
+#loginBtn:hover, #signupBtn:hover ,  #googleSignInBtn:hover {
+    transform: scale(1.1);
+    background-color: #e6e6e6;
+}
+
+/* Highlight only "Brighter" with a glowing effect */
+#tagline {
+    font-size: 3em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+#tagline span {
+    color: #FFD700; /* Gold color for "Brighter" */
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FF8C00;
+    }
+    to {
+        text-shadow: 0 0 20px #FFD700, 0 0 30px #FF8C00, 0 0 40px #FF4500;
+    }
+}
+
+/* Glitter effect styles */
+#glitter-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    background-color: black;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px white;
+    animation: glitter 6s infinite ease-in-out;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+@keyframes glitter {
+    0%, 100% {
+        transform: scale(0.5);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Login container styles */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin: 15px 0;
+    text-align: left;
+    width: 100%;
+    max-width: 300px;
+}
+
+label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.login-btn {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #000;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.login-btn:hover {
+    transform: scale(1.05);
+    background-color: #e6e6e6;
+}
+
+/* Dashboard styles */
+#body_2 {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.h_1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin: 20px;
+}
+
+.ct-image {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+.ct-description {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.button-container-2 {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-top: 30px;
+}
+
+.gradient-button {
+    background: linear-gradient(45deg, #ff7f50, #ff6347);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.gradient-button:hover {
+    background: linear-gradient(45deg, #ff6347, #ff7f50);
+}
+
+.upload-box {
+    width: 100%;
+    border: 2px dashed #ddd;
+    padding: 30px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.upload-box input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+}
+
+ul {
+    text-align: left;
+    width: 70%;
+    margin: 0 auto;
+}
+
+ul li {
+    font-size: 1.1em;
+    margin: 5px 0;
+}

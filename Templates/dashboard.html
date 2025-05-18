@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+</head>
+<body id="body_2" img src="{{ url_for('static', filename='images/background.webp') }}" alt="Background">
+
+    <div class="container">
+        
+        <div id="ct-scan-question">
+            <h1 class="h_1">DO YOU HAVE A RECENT MRI SCAN OF YOUR BRAIN?</h1>
+
+            
+            <div id="ct-scan-info">
+                <div class="ct-image">
+                    <img src="{{ url_for('static', filename='images/ct_scan_img.webp') }}" alt="MRI Scan">
+                </div>
+
+                <p class="ct-description">
+                    A MRI (Magnetic Resonance Imaging) scan is a medical imaging procedure used to visualize the internal structures of the body, including the brain. It is commonly used for detecting conditions like brain injuries, tumors, and Alzheimer's disease.
+                </p>
+            </div>
+
+            <!-- Yes and No Buttons -->
+            <div class="button-container-2">
+                <button id="yes-btn" class="gradient-button" onclick="showUploadSection()">YES</button>
+                <button id="no-btn" class="gradient-button" onclick="showMedicalInfo()">NO</button>
+            </div>
+        </div>
+
+        <a href="/get_help" id="help-icon" title="Get Help"> ❤ </a>
+
+        <!-- Upload Image Section -->
+        <div id="upload-section" style="display:none;">
+            <h1 class="h_1">Upload Your MRI Scan Image</h1>
+            <form action="/upload_ct_scan" method="POST" enctype="multipart/form-data" onsubmit="showProgressBar()">
+                <div class="upload-box">
+                    <input type="file" name="ct_scan" accept="image/*" required>
+                </div>
+                <button type="submit" class="gradient-button">Submit</button>
+            </form>
+        </div>
+
+        <!-- Medical Info Section (Initially hidden) -->
+        <div id="medical-info" style="display:none;">
+            <h1 class="h_1">Medical Requirements</h1>
+            <ul>
+                <li>Age: 60-90 years</li>
+                <li>Gender: 0 = Male, 1 = Female</li>
+                <li>Ethnicity: 0 = Caucasian, 1 = African American, 2 = Asian, 3 = Other</li>
+                <li>Education Level: 0 = None, 1 = High School, 2 = Bachelor's, 3 = Higher</li>
+                <li>Smoking: 0 = No, 1 = Yes</li>
+                <li>Family History of Alzheimer's: 0 = No, 1 = Yes</li>
+                <li>Cardiovascular Disease: 0 = No, 1 = Yes</li>
+                <li>Diabetes: 0 = No, 1 = Yes</li>
+                <li>Depression: 0 = No, 1 = Yes</li>
+                <li>Head Injury: 0 = No, 1 = Yes</li>
+                <li>Hypertension: 0 = No, 1 = Yes</li>
+                <li>Systolic BP: 90-180 mmHg</li>
+                <li>Diastolic BP: 60-120 mmHg</li>
+                <li>Total Cholesterol: 150-300 mg/dL</li>
+                <li>LDL Cholesterol: 50-200 mg/dL</li>
+                <li>HDL Cholesterol: 20-100 mg/dL</li>
+                <li>Triglycerides: 50-400 mg/dL</li>
+                <li>Functional Assessment: 0-10</li>
+                <li>Memory Complaints: 0 = No, 1 = Yes</li>
+                <li>Behavioral Problems: 0 = No, 1 = Yes</li>
+                <li>Symptoms: Confusion, Disorientation, Personality Changes, Difficulty Completing Tasks, Forgetfulness</li>
+                <li>Diagnosis: 0 = No, 1 = Yes (Alzheimer's)</li>
+            </ul>
+            
+            <!-- Proceed and Go Back Buttons -->
+            <div class="button-container">
+                <form action="/medical_info" method="GET">
+                    <button type="submit" class="gradient-button">PROCEED</button>
+                </form>
+                <button class="gradient-button" onclick="goBackToCTScan()">GO BACK</button>
+            </div>
+        </div>
+
+        <!-- Progress Bar Section (Moved outside of container) -->
+    <div id="progress-section" style="display:none;">
+        <h1 class="h_1">Processing...</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
+        <p>Please wait while we process your MRI scan...</p>
+    </div>
+
+    <style>
+        /* Progress Bar Styles */
+        .progress-bar-container {
+            width: 80%;
+            height: 30px;
+            background-color: #e0e0e0;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4caf50, #2196f3);
+            animation: progress-animation 10s linear forwards; /* Increase duration to simulate longer processing */
+            border-radius: 15px;
+        }
+
+        @keyframes progress-animation {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 70%; /* Mid-point where it appears half complete */
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+    </div>
+
+    
+
+    <!-- JavaScript to handle UI transitions and form submissions -->
+    <script>
+        function showUploadSection() {
+            document.getElementById("ct-scan-question").style.display = "none";
+            document.getElementById("upload-section").style.display = "block";
+        }
+
+        function showMedicalInfo() {
+            document.getElementById("ct-scan-question").style.display = "none";
+            document.getElementById("medical-info").style.display = "block";
+        }
+
+        function goBackToCTScan() {
+            document.getElementById("medical-info").style.display = "none";
+            document.getElementById("ct-scan-question").style.display = "block";
+        }
+
+        function showProgressBar() {
+            document.getElementById("upload-section").style.display = "none";
+            document.getElementById("progress-section").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

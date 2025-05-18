@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Prediction</title>
+    <link rel="stylesheet" href="/static/styles3.css">
+</head>
+<body id="body_3">
+    <div class="container_2">
+        <h1 id="h_2">Alzheimer's Prediction</h1>
+        <form action="/medical_info" method="POST">
+            <label for="Age">Age:</label>
+            <input type="number" name="Age" required>
+
+            <label for="Gender">Gender:</label>
+            <select name="Gender" required>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select>
+
+            <label for="Ethnicity">Ethnicity:</label>
+            <select name="Ethnicity" required>
+                <option value="0">Caucasian</option>
+                <option value="1">African American</option>
+                <option value="2">Asian</option>
+                <option value="3">Other</option>
+            </select>
+
+            <label for="EducationLevel">Education Level:</label>
+            <select name="EducationLevel" required>
+                <option value="0">None</option>
+                <option value="1">High School</option>
+                <option value="2">Bachelor's</option>
+                <option value="3">Higher</option>
+            </select>
+
+            <label for="BMI">BMI:</label>
+            <input type="number" step="0.01" name="BMI" required>
+            <button type="button" onclick="window.location.href='https://www.calculator.net/bmi-calculator.html'">Not Available</button>
+
+            <label for="Smoking">Smoking:</label>
+            <select name="Smoking" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="FamilyHistoryAlzheimers">Family History of Alzheimer's:</label>
+            <select name="FamilyHistoryAlzheimers" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="CardiovascularDisease">Cardiovascular Disease:</label>
+            <select name="CardiovascularDisease" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="Diabetes">Diabetes:</label>
+            <select name="Diabetes" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="Depression">Depression:</label>
+            <select name="Depression" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="HeadInjury">Head Injury:</label>
+            <select name="HeadInjury" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="Hypertension">Hypertension:</label>
+            <select name="Hypertension" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="SystolicBP">Systolic Blood Pressure:</label>
+            <input type="number" step="1" name="SystolicBP" required>
+
+            <label for="DiastolicBP">Diastolic Blood Pressure:</label>
+            <input type="number" step="1" name="DiastolicBP" required>
+
+            <label for="CholesterolTotal">Total Cholesterol:</label>
+            <select name="CholesterolTotalUnit" required>
+                <option value="mg/dL">mg/dL</option>
+                <option value="mmol/L">mmol/L</option>
+            </select>
+            <input type="number" step="0.01" name="CholesterolTotal" required>
+
+            <label for="CholesterolLDL">LDL Cholesterol:</label>
+            <select name="CholesterolLDLUnit" required>
+                <option value="mg/dL">mg/dL</option>
+                <option value="mmol/L">mmol/L</option>
+            </select>
+            <input type="number" step="0.01" name="CholesterolLDL" required>
+
+            <label for="CholesterolHDL">HDL Cholesterol:</label>
+            <select name="CholesterolHDLUnit" required>
+                <option value="mg/dL">mg/dL</option>
+                <option value="mmol/L">mmol/L</option>
+            </select>
+            <input type="number" step="0.01" name="CholesterolHDL" required>
+
+            <label for="CholesterolTriglycerides">Triglycerides:</label>
+            <select name="CholesterolTriglyceridesUnit" required>
+                <option value="mg/dL">mg/dL</option>
+                <option value="mmol/L">mmol/L</option>
+            </select>
+            <input type="number" step="0.01" name="CholesterolTriglycerides" required>
+
+            <label for="MMSE">MMSE Score:</label>
+            <input type="number" step="0.1" name="MMSE">
+            <button type="button" onclick="window.location.href='https://compendiumapp.com/post_4xQIen-Ly'">Not Available</button>
+
+            <label for="FunctionalAssessment">Functional Assessment Score:</label>
+            <input type="number" step="0.01" name="FunctionalAssessment" required>
+            <button type="button" onclick="window.location.href='https://www.compassus.com/healthcare-professionals/determining-eligibility/functional-assessment-staging-tool-fast-scale-for-dementia/'">Not Available</button>
+
+            <label for="MemoryComplaints">Memory Complaints:</label>
+            <select name="MemoryComplaints" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="BehavioralProblems">Behavioral Problems:</label>
+            <select name="BehavioralProblems" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="ADL">ADL Score:</label>
+            <input type="number" step="0.01" name="ADL">
+            <button type="button" onclick="window.location.href='https://www.mdcalc.com/calc/3912/barthel-index-activities-daily-living-adl#evidence'">Not Available</button>
+
+            <label for="Confusion">Confusion:</label>
+            <select name="Confusion" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="Disorientation">Disorientation:</label>
+            <select name="Disorientation" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="PersonalityChanges">Personality Changes:</label>
+            <select name="PersonalityChanges" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="DifficultyCompletingTasks">Difficulty Completing Tasks:</label>
+            <select name="DifficultyCompletingTasks" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="Forgetfulness">Forgetfulness:</label>
+            <select name="Forgetfulness" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <button type="submit" , id="pred">Predict</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Help</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a1fefb 0%, #6e7bfb 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: #000000;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+        }
+
+        h1::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #ffffff;
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .charity-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            width: 95%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .charity-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .charity-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: fill;
+            border-radius: 14px;
+            margin-right: 25px;
+            border: 2px solid #ffffff;
+        }
+
+        .charity-info {
+            flex-grow: 1;
+            color: #000000;
+        }
+
+        .charity-description {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .visit-button {
+            display: inline-block;
+            background: #ffffff;
+            color: #6e7bfb;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .visit-button:hover {
+            background: #6e7bfb;
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+            .charity-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .charity-logo {
+                margin: 0 0 15px 0;
+            }
+
+            .charity-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Get Help from These Organizations</h1>
+    <div class="container">
+
+        <!-- Charity 1 -->
+        <div class="charity-card">
+            <img src="{{ url_for('static', filename='images/logo_org_1.jpg') }}" alt="Charity 1" class="charity-logo">
+            <div class="charity-info">
+                <div class="charity-description">
+                    The Alzheimer's Association leads the way to end Alzheimer's and all other dementia — by accelerating global research, driving risk reduction and early detection, and maximizing quality care and support.
+                </div>
+                <a href="https://www.alz.org/" target="_blank" class="visit-button">Visit Website</a>
+            </div>
+        </div>
+
+        <!-- Charity 2 -->
+        <div class="charity-card">
+            <img src="{{ url_for('static', filename='images/logo_org_2.jpg') }}" alt="Charity 2" class="charity-logo">
+            <div class="charity-info">
+                <div class="charity-description">
+                    The Alzheimer’s Foundation of America provides support, services, and education to individuals and families affected by Alzheimer’s and funds research for better treatment and a cure.
+                </div>
+                <a href="https://alzfdn.org/" target="_blank" class="visit-button">Visit Website</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

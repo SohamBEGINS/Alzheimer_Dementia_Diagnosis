@@ -1,0 +1,292 @@
+/* General Styling */
+/* Global body styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('/static/images/background.webp');
+    background-size: cover;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Prevent body scrolling */
+}
+
+/* Container to hold all content */
+.container {
+    max-width: 900px; /* Set max-width */
+    width: 100%; /* Make it responsive */
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 80vh; /* Set a maximum height (adjust as needed) */
+    margin: 0 auto; /* Center the container */
+}
+
+/* Headings styling */
+.h_1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Result box containing the diagnosis */
+.result-box {
+    margin-top: 20px;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Text for result */
+.result-text {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    margin-bottom: 10px;
+}
+
+/* Diagnosis section */
+.diagnosis {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4caf50; /* Green color for positive result */
+    margin-top: 10px;
+}
+
+ /* Heart Icon Styles */
+#help-icon {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        font-size: 100px;
+        text-decoration: none;
+        z-index: 9999;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        color:red ;
+    }
+
+#help-icon:hover {
+        transform: scale(1.2);
+    }
+
+
+/* Diagnosis summary paragraph */
+.diagnosis-summary {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-top: 20px;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* Styling for the "Go Back" button */
+.back-button-container {
+    margin-top: 30px;
+}
+
+.gradient-button {
+    background: linear-gradient(45deg, #4caf50, #81c784);
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 25px;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.gradient-button:hover {
+    background: linear-gradient(45deg, #388e3c, #66bb6a);
+}
+
+/* Responsive styling */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%; /* Increase width for smaller screens */
+        padding: 15px;
+    }
+
+    .h_1 {
+        font-size: 2rem;
+    }
+
+    .diagnosis {
+        font-size: 1.6rem;
+    }
+
+    .diagnosis-summary {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .result-box {
+        padding: 15px;
+    }
+
+    .gradient-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .h_1 {
+        font-size: 1.8rem;
+    }
+}
+
+
+
+
+
+/* Medical Requirements List */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    font-size: 1.4rem;
+    line-height: 2;
+    margin-bottom: 15px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+li:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+li:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Glossy Buttons */
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.gradient-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.gradient-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #6a11cb, #1c85d8);
+    box-shadow: 0 8px 25px rgba(106, 17, 203, 0.7);
+}
+
+.gradient-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px rgba(255, 154, 158, 0.4);
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .h_1 {
+        font-size: 2rem;
+    }
+
+    li {
+        font-size: 1.2rem;
+        line-height: 1.8;
+    }
+
+    .gradient-button {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        height: 90%; /* Adjust container height for smaller screens */
+    }
+}
+
+
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.upload-box input {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+
+#ct-scan-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.ct-image {
+    width: 300px; /* Adjust width */
+    height: 200px; /* Adjust height */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px; /* Change to rounded rectangle */
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* Ensures image stays within the box */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ct-image img {
+    width: 100%; /* Make the image fit the box */
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the box without distortion */
+}
+
+
+.ct-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0 20px;
+    text-align: justify;
+    color: #f0f0f0;
+}
