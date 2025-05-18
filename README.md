@@ -1,6 +1,6 @@
 ![Banner](static/images/first_look.png)
 <h2>Overview</h2>
-<p>The Alzheimer's Detection Website is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload MRI scan images for analysis and provides reliable classification into categories such as:</p>
+<p>MemoCare is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload MRI scan images for analysis and provides reliable classification into categories such as:</p>
 <ul>
     <li>Non-Demented</li>
     <li>Very Mild Demented</li>
