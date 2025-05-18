@@ -23,6 +23,7 @@
     <li><strong>Medical Data Input:</strong> Users can enter medical data (e.g., age, medical history, etc.) for analysis.</li>
     <li><strong>Classification Results:</strong> The site provides accurate classification results from both the MRI scan and medical data models.</li>
     <li><strong>PDF Generation:</strong> Based on the medical data provided, users can generate a detailed PDF report summarizing the classification results and analysis.</li>
+    <li><strong>Get Help Page:</strong> Helps patients belonging to a weaker economical class or requiring some sort of aid to directly connect with local or international charity organizations.
     <li><strong>User-Friendly Interface:</strong> Built with Flask and Jinja2, the website is simple and intuitive to navigate.</li>
     <li><strong>Robust Models:</strong> Powered by deep learning models trained on an extensive dataset of MRI scans and medical data.</li>
 </ul>
