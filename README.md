@@ -109,7 +109,6 @@ Precision: 0.91, Recall: 0.95, F1-Score: 0.93
 **Weighted Avg:**
 Precision: 0.94, Recall: 0.93, F1-Score: 0.93
         
-<li>
 <h2>Technologies Used</h2>
 <ul>
     <li><strong>Backend:</strong> Flask framework with Jinja2 template engine.</li>
