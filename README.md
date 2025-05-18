@@ -95,6 +95,15 @@
     <li><strong>models/:</strong> Pre-trained deep learning models for MRI scan and medical data classification.</li>
     <li><strong>data/:</strong> Organized dataset for training and testing, including MRI scan images and medical records.</li>
 </ul>
+<h2>🆘 Get Help Page</h2>
+
+![Get Help Page Screenshot](static/images/get_help.png)
+
+The **Get Help** page provides users and caregivers with a curated list of support organizations that assist Alzheimer's patients. 
+
+- You can access this feature by clicking the **heart icon** at the top-right corner of the dashboard.
+- The page opens a well-structured list of verified support groups, clinical resources, and helpline services dedicated to Alzheimer's care.
+- This ensures users are not only informed about diagnosis but also guided toward the **next steps in real-world care**, whether through local services, research trials, or caregiver aid.
 
 
 <h2>Contact</h2>
