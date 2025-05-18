@@ -71,7 +71,8 @@
 <h2>Accuracy , Precision and Recall</h2>
 
 <h4>Alzheimer Prediction Model</h4>
-**Accuracy**: `95.81%`
+
+**Accuracy** : `95.81%`
 
 **Label Legend**:  
 - `0` → Negative for Alzheimer’s  
@@ -99,7 +100,9 @@
 | 2           | Mild Demented      | 0.99      | 0.90   | 0.94     | 2560    |
 | 3           | Moderate Demented  | 0.86      | 0.98   | 0.91     | 1792    |
 
-###Averages
+
+### Averages
+
 **Macro Avg:**
 Precision: 0.91, Recall: 0.95, F1-Score: 0.93
 
