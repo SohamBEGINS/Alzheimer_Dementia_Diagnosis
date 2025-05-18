@@ -24,12 +24,13 @@ from authlib.integrations.flask_client import OAuth
 application = Flask(__name__)
 app = application
 
-load_dotenv()  # This loads variables from .env into environment variables
+load_dotenv()  
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 # Secret key for session management
 app.secret_key = os.getenv("SECRET_KEY")
 
+#google oauth configuration 
 oauth = OAuth(app)
 google = oauth.register(
     name='google',

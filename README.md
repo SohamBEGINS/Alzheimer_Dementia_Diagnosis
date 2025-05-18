@@ -12,8 +12,8 @@
 
 <p>This project serves as a tool to assist healthcare professionals and researchers in the early detection and monitoring of Alzheimer's disease progression. Additionally, the platform incorporates two distinct models:</p>
 <ul>
-    <li><strong>MRI Scan Model:</strong> This model analyzes MRI scan images and classifies them into the four stages of dementia: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented.</li>
-    <li><strong>Medical Data Model:</strong> This model takes in user medical data and provides a classification indicating whether the user is likely to have Alzheimer's or not.</li>
+    <li><strong>MRI Scan Model:</strong> This model analyzes MRI scan images and classifies them into the four stages of dementia: Non-Demented, Very Mild Demented, Mild Demented, and Moderate Demented.The models used were DenseNet201 for feature extraction(excluding the top layer) and ANN for classification</li>
+    <li><strong>Medical Data Model:</strong> This model takes in user medical data and provides a classification indicating whether the user is likely to have Alzheimer's or not.The method used was ensemble learning technique in which the base learners were RandomForestClassifier and GradientBoostingClassifier and Meta Learner was Logistic Regression  </li>
 </ul>
 <p>Furthermore, users can generate a detailed PDF report based on the medical data they provide, summarizing the analysis and classification results.</p>
 
