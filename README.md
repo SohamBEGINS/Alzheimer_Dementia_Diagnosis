@@ -70,7 +70,7 @@
 
 <h2>Accuracy , Precision and Recall</h2>
 
-
+<h4>Alzheimer Prediction Model</h4>
 **Accuracy**: `95.81%`
 
 **Label Legend**:  
@@ -87,6 +87,24 @@
 **Overall Accuracy**: `0.96`  
 **Macro Average**: `Precision: 0.96`, `Recall: 0.95`, `F1-Score: 0.95`  
 **Weighted Average**: `Precision: 0.96`, `Recall: 0.96`, `F1-Score: 0.96`
+
+<h4>Dementia Detection Model </h4>
+
+**Test Accuracy**:93.24%
+
+| Class Label | Description        | Precision | Recall | F1-Score | Support |
+| ----------- | ------------------ | --------- | ------ | -------- | ------- |
+| 0           | Non-Demented       | 0.97      | 0.93   | 0.95     | 717     |
+| 1           | Very Mild Demented | 0.84      | 1.00   | 0.91     | 52      |
+| 2           | Mild Demented      | 0.99      | 0.90   | 0.94     | 2560    |
+| 3           | Moderate Demented  | 0.86      | 0.98   | 0.91     | 1792    |
+
+###Averages
+**Macro Avg:**
+Precision: 0.91, Recall: 0.95, F1-Score: 0.93
+
+**Weighted Avg:**
+Precision: 0.94, Recall: 0.93, F1-Score: 0.93
         
 <li>
 <h2>Technologies Used</h2>
