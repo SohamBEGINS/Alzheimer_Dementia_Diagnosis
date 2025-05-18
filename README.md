@@ -68,6 +68,27 @@
 <p>The dataset can be found at the following link: 
 <a href="https://www.kaggle.com/datasets/raihannaufalramadhan/alzheimer-data">MRI Scan Dataset on Kaggle</a></p>
 
+<h2>Accuracy , Precision and Recall</h2>
+
+
+**Accuracy**: `95.81%`
+
+**Label Legend**:  
+- `0` → Negative for Alzheimer’s  
+- `1` → Positive for Alzheimer’s
+
+### 📊 Classification Report
+
+| Class | Precision | Recall | F1-Score | Support |
+|-------|-----------|--------|----------|---------|
+| 0 (No Alzheimer’s) | 0.96 | 0.98 | 0.97 | 277 |
+| 1 (Positive Alzheimer’s) | 0.96 | 0.92 | 0.94 | 153 |
+
+**Overall Accuracy**: `0.96`  
+**Macro Average**: `Precision: 0.96`, `Recall: 0.95`, `F1-Score: 0.95`  
+**Weighted Average**: `Precision: 0.96`, `Recall: 0.96`, `F1-Score: 0.96`
+        
+<li>
 <h2>Technologies Used</h2>
 <ul>
     <li><strong>Backend:</strong> Flask framework with Jinja2 template engine.</li>
