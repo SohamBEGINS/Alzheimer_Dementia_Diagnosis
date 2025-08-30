@@ -1,5 +1,5 @@
 <h1>Creators: Animesh Patra and Soham Ganguly
-
+<ul>
 ![Banner](static/images/first_look.png)
 ### 🔗 Live Demo
 Demo video of the website: https://www.youtube.com/watch?v=LM9doDIdOm0
