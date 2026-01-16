@@ -5,8 +5,11 @@ Production-ready refactored version
 import os
 import logging
 import tempfile
+import time
+import threading
 from io import BytesIO
 from datetime import datetime, timezone
+from functools import lru_cache
 
 import numpy as np
 import joblib
@@ -17,7 +20,7 @@ from flask import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import RequestEntityTooLarge
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
+from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError, OperationFailure
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.applications import DenseNet201
@@ -40,9 +43,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Initialize Flask app
-application = Flask(__name__)
+# Initialize Flask app with explicit template and static folder paths
+# This ensures compatibility with case-sensitive file systems (Linux/Docker)
+application = Flask(__name__, 
+                    template_folder='Templates',
+                    static_folder='static')
 app = application
+
+# Base directory paths using relative paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_DIR, 'mri_models')
+MODEL_BASE_DIR = BASE_DIR
+
+# Temporary file directory (configurable for containers)
+TEMP_DIR = os.getenv("TEMP_DIR", tempfile.gettempdir())
+os.makedirs(TEMP_DIR, exist_ok=True)
+logger.info(f"Temporary files directory: {TEMP_DIR}")
 
 # Configuration from environment variables
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -54,9 +70,13 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
 
-# Configure file upload limits
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+# Configure file upload limits (configurable)
+MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 16 * 1024 * 1024))  # Default 16MB
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
+
+# Resource limits configuration
+MAX_MEMORY_USAGE_MB = int(os.getenv("MAX_MEMORY_USAGE_MB", "2048"))  # Default 2GB
+MODEL_LOAD_TIMEOUT = int(os.getenv("MODEL_LOAD_TIMEOUT", "300"))  # Default 5 minutes
 
 # Allowed file extensions for image uploads
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
@@ -77,106 +97,194 @@ else:
     logger.warning("Google OAuth credentials not configured. Google login will not work.")
     google = None
 
-# MongoDB configuration
+# MongoDB configuration with retry logic
 MONGODB_URI = os.getenv("MONGODB_URI")
 if not MONGODB_URI:
     raise ValueError("MONGODB_URI environment variable is required")
 
-try:
-    client = MongoClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
-    # Test connection
-    client.admin.command('ping')
-    db = client['user_db']
-    users_collection = db['users']
-    logger.info("Successfully connected to MongoDB")
-except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-    logger.error(f"Failed to connect to MongoDB: {e}")
-    raise
+MONGODB_CONNECT_TIMEOUT = int(os.getenv("MONGODB_CONNECT_TIMEOUT", "5000"))
+MONGODB_SERVER_SELECTION_TIMEOUT = int(os.getenv("MONGODB_SERVER_SELECTION_TIMEOUT", "5000"))
+MONGODB_RETRY_ATTEMPTS = int(os.getenv("MONGODB_RETRY_ATTEMPTS", "3"))
+MONGODB_RETRY_DELAY = int(os.getenv("MONGODB_RETRY_DELAY", "2"))  # seconds
 
-# Model loading with error handling
-def load_models():
-    """Load all ML models with proper error handling"""
-    models = {}
-    errors = []
-    
-    try:
-        # Load scaler
-        if not os.path.exists('scaler.pkl'):
-            raise FileNotFoundError("scaler.pkl not found")
-        models['scaler'] = joblib.load('scaler.pkl')
-        logger.info("Scaler loaded successfully")
-    except Exception as e:
-        errors.append(f"Error loading scaler: {str(e)}")
-        logger.error(f"Error loading scaler: {e}")
-    
-    try:
-        # Load stacking model
-        if not os.path.exists('stacking_model.pkl'):
-            raise FileNotFoundError("stacking_model.pkl not found")
-        models['stacking_model'] = joblib.load('stacking_model.pkl')
-        logger.info("Stacking model loaded successfully")
-    except Exception as e:
-        errors.append(f"Error loading stacking model: {str(e)}")
-        logger.error(f"Error loading stacking model: {e}")
-    
-    try:
-        # Load MRI models
-        model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mri_models')
-        
-        if not os.path.exists(model_dir):
-            raise FileNotFoundError(f"Model directory not found: {model_dir}")
-        
-        # Load DenseNet model
-        densenet_weights_path = os.path.join(model_dir, 'densenet_weights.h5')
-        if not os.path.exists(densenet_weights_path):
-            raise FileNotFoundError(f"DenseNet weights not found: {densenet_weights_path}")
-        
-        densenet_model = DenseNet201(weights=None, include_top=False, input_shape=(224, 224, 3))
-        densenet_model.load_weights(densenet_weights_path)
-        models['densenet_model'] = densenet_model
-        logger.info("DenseNet model loaded successfully")
-        
-        # Load ANN model
-        ann_weights_path = os.path.join(model_dir, 'ann_weights.h5')
-        if not os.path.exists(ann_weights_path):
-            raise FileNotFoundError(f"ANN weights not found: {ann_weights_path}")
-        
-        ann_model = Sequential([
-            Dense(512, input_dim=2000, activation='relu'),
-            Dropout(0.5),
-            Dense(256, activation='relu'),
-            Dropout(0.5),
-            Dense(128, activation='relu'),
-            Dense(4, activation='softmax')
-        ])
-        ann_model.load_weights(ann_weights_path)
-        models['ann_model'] = ann_model
-        logger.info("ANN model loaded successfully")
-        
-        # Load PCA model
-        pca_path = os.path.join(model_dir, 'pca_model.pkl')
-        if not os.path.exists(pca_path):
-            raise FileNotFoundError(f"PCA model not found: {pca_path}")
-        
-        models['pca'] = joblib.load(pca_path)
-        logger.info("PCA model loaded successfully")
-        
-    except Exception as e:
-        errors.append(f"Error loading MRI models: {str(e)}")
-        logger.error(f"Error loading MRI models: {e}")
-    
-    if errors:
-        logger.warning(f"Some models failed to load: {errors}")
-    
-    return models, errors
+def connect_mongodb():
+    """Connect to MongoDB with retry logic"""
+    for attempt in range(1, MONGODB_RETRY_ATTEMPTS + 1):
+        try:
+            client = MongoClient(
+                MONGODB_URI,
+                serverSelectionTimeoutMS=MONGODB_SERVER_SELECTION_TIMEOUT,
+                connectTimeoutMS=MONGODB_CONNECT_TIMEOUT,
+                retryWrites=True,
+                maxPoolSize=50,
+                minPoolSize=10
+            )
+            # Test connection with timeout
+            client.admin.command('ping', maxTimeMS=2000)
+            db = client['user_db']
+            users_collection = db['users']
+            logger.info(f"Successfully connected to MongoDB on attempt {attempt}")
+            return client, db, users_collection
+        except (ConnectionFailure, ServerSelectionTimeoutError, OperationFailure) as e:
+            if attempt < MONGODB_RETRY_ATTEMPTS:
+                logger.warning(f"MongoDB connection attempt {attempt} failed: {e}. Retrying in {MONGODB_RETRY_DELAY} seconds...")
+                time.sleep(MONGODB_RETRY_DELAY)
+            else:
+                logger.error(f"Failed to connect to MongoDB after {MONGODB_RETRY_ATTEMPTS} attempts: {e}")
+                raise
 
-# Load models at startup
-models, model_errors = load_models()
-scaler = models.get('scaler')
-stacking_model = models.get('stacking_model')
-densenet_model = models.get('densenet_model')
-ann_model = models.get('ann_model')
-pca = models.get('pca')
+# Initialize MongoDB connection
+client, db, users_collection = connect_mongodb()
+
+# Model lazy loading with thread-safe caching
+_model_cache = {}
+_model_lock = threading.Lock()
+_model_errors = []
+
+def load_scaler():
+    """Load scaler model (lazy loading)"""
+    if 'scaler' not in _model_cache:
+        with _model_lock:
+            if 'scaler' not in _model_cache:
+                try:
+                    scaler_path = os.path.join(MODEL_BASE_DIR, 'scaler.pkl')
+                    if not os.path.exists(scaler_path):
+                        raise FileNotFoundError(f"scaler.pkl not found at {scaler_path}")
+                    _model_cache['scaler'] = joblib.load(scaler_path)
+                    logger.info("Scaler loaded successfully")
+                except Exception as e:
+                    error_msg = f"Error loading scaler: {str(e)}"
+                    _model_errors.append(error_msg)
+                    logger.error(error_msg)
+                    _model_cache['scaler'] = None
+    return _model_cache.get('scaler')
+
+def load_stacking_model():
+    """Load stacking model (lazy loading)"""
+    if 'stacking_model' not in _model_cache:
+        with _model_lock:
+            if 'stacking_model' not in _model_cache:
+                try:
+                    stacking_path = os.path.join(MODEL_BASE_DIR, 'stacking_model.pkl')
+                    if not os.path.exists(stacking_path):
+                        raise FileNotFoundError(f"stacking_model.pkl not found at {stacking_path}")
+                    _model_cache['stacking_model'] = joblib.load(stacking_path)
+                    logger.info("Stacking model loaded successfully")
+                except Exception as e:
+                    error_msg = f"Error loading stacking model: {str(e)}"
+                    _model_errors.append(error_msg)
+                    logger.error(error_msg)
+                    _model_cache['stacking_model'] = None
+    return _model_cache.get('stacking_model')
+
+def load_densenet_model():
+    """Load DenseNet model (lazy loading)"""
+    if 'densenet_model' not in _model_cache:
+        with _model_lock:
+            if 'densenet_model' not in _model_cache:
+                try:
+                    if not os.path.exists(MODEL_DIR):
+                        raise FileNotFoundError(f"Model directory not found: {MODEL_DIR}")
+                    
+                    densenet_weights_path = os.path.join(MODEL_DIR, 'densenet_weights.h5')
+                    if not os.path.exists(densenet_weights_path):
+                        raise FileNotFoundError(f"DenseNet weights not found: {densenet_weights_path}")
+                    
+                    densenet_model = DenseNet201(weights=None, include_top=False, input_shape=(224, 224, 3))
+                    densenet_model.load_weights(densenet_weights_path)
+                    _model_cache['densenet_model'] = densenet_model
+                    logger.info("DenseNet model loaded successfully")
+                except Exception as e:
+                    error_msg = f"Error loading DenseNet model: {str(e)}"
+                    _model_errors.append(error_msg)
+                    logger.error(error_msg)
+                    _model_cache['densenet_model'] = None
+    return _model_cache.get('densenet_model')
+
+def load_ann_model():
+    """Load ANN model (lazy loading)"""
+    if 'ann_model' not in _model_cache:
+        with _model_lock:
+            if 'ann_model' not in _model_cache:
+                try:
+                    if not os.path.exists(MODEL_DIR):
+                        raise FileNotFoundError(f"Model directory not found: {MODEL_DIR}")
+                    
+                    ann_weights_path = os.path.join(MODEL_DIR, 'ann_weights.h5')
+                    if not os.path.exists(ann_weights_path):
+                        raise FileNotFoundError(f"ANN weights not found: {ann_weights_path}")
+                    
+                    ann_model = Sequential([
+                        Dense(512, input_dim=2000, activation='relu'),
+                        Dropout(0.5),
+                        Dense(256, activation='relu'),
+                        Dropout(0.5),
+                        Dense(128, activation='relu'),
+                        Dense(4, activation='softmax')
+                    ])
+                    ann_model.load_weights(ann_weights_path)
+                    _model_cache['ann_model'] = ann_model
+                    logger.info("ANN model loaded successfully")
+                except Exception as e:
+                    error_msg = f"Error loading ANN model: {str(e)}"
+                    _model_errors.append(error_msg)
+                    logger.error(error_msg)
+                    _model_cache['ann_model'] = None
+    return _model_cache.get('ann_model')
+
+def load_pca_model():
+    """Load PCA model (lazy loading)"""
+    if 'pca' not in _model_cache:
+        with _model_lock:
+            if 'pca' not in _model_cache:
+                try:
+                    if not os.path.exists(MODEL_DIR):
+                        raise FileNotFoundError(f"Model directory not found: {MODEL_DIR}")
+                    
+                    pca_path = os.path.join(MODEL_DIR, 'pca_model.pkl')
+                    if not os.path.exists(pca_path):
+                        raise FileNotFoundError(f"PCA model not found: {pca_path}")
+                    
+                    _model_cache['pca'] = joblib.load(pca_path)
+                    logger.info("PCA model loaded successfully")
+                except Exception as e:
+                    error_msg = f"Error loading PCA model: {str(e)}"
+                    _model_errors.append(error_msg)
+                    logger.error(error_msg)
+                    _model_cache['pca'] = None
+    return _model_cache.get('pca')
+
+# Convenience functions for backward compatibility
+def get_scaler():
+    return load_scaler()
+
+def get_stacking_model():
+    return load_stacking_model()
+
+def get_densenet_model():
+    return load_densenet_model()
+
+def get_ann_model():
+    return load_ann_model()
+
+def get_pca():
+    return load_pca_model()
+
+def get_model_errors():
+    """Get list of model loading errors"""
+    return _model_errors.copy()
+
+# Pre-load models if EAGER_LOAD_MODELS is set (default: False for lazy loading)
+if os.getenv("EAGER_LOAD_MODELS", "false").lower() == "true":
+    logger.info("Eager loading models at startup...")
+    load_scaler()
+    load_stacking_model()
+    load_densenet_model()
+    load_ann_model()
+    load_pca_model()
+    logger.info("All models loaded at startup")
+else:
+    logger.info("Models will be loaded on-demand (lazy loading)")
 
 # Helper functions
 def allowed_file(filename):
@@ -229,6 +337,13 @@ def home():
 @app.route('/health')
 def health_check():
     """Health check endpoint for monitoring"""
+    # Try loading models to check their availability
+    scaler = get_scaler()
+    stacking_model = get_stacking_model()
+    densenet_model = get_densenet_model()
+    ann_model = get_ann_model()
+    pca = get_pca()
+    
     health_status = {
         'status': 'healthy',
         'models_loaded': {
@@ -239,14 +354,16 @@ def health_check():
             'pca': pca is not None
         },
         'database': 'connected',
-        'model_errors': model_errors if model_errors else None
+        'model_errors': get_model_errors() if get_model_errors() else None,
+        'lazy_loading': os.getenv("EAGER_LOAD_MODELS", "false").lower() != "true"
     }
     
-    # Check database connection
+    # Check database connection with timeout
     try:
-        client.admin.command('ping')
+        client.admin.command('ping', maxTimeMS=2000)
     except Exception as e:
         health_status['database'] = 'disconnected'
+        health_status['database_error'] = str(e)
         health_status['status'] = 'degraded'
         logger.error(f"Database health check failed: {e}")
     
@@ -419,6 +536,9 @@ def logout():
 def get_medical_info():
     """Medical information prediction route"""
     if request.method == 'POST':
+        scaler = get_scaler()
+        stacking_model = get_stacking_model()
+        
         if not scaler or not stacking_model:
             flash('Prediction models are not available. Please contact support.', 'error')
             return redirect(url_for('dashboard'))
@@ -596,6 +716,10 @@ def trigger_pdf():
 @auth
 def upload_ct_scan():
     """CT scan/MRI upload and prediction route"""
+    densenet_model = get_densenet_model()
+    ann_model = get_ann_model()
+    pca = get_pca()
+    
     if not densenet_model or not ann_model or not pca:
         flash('MRI prediction models are not available. Please contact support.', 'error')
         return redirect(url_for('dashboard'))
@@ -618,8 +742,12 @@ def upload_ct_scan():
             flash(f'Invalid file type. Allowed types: {", ".join(ALLOWED_EXTENSIONS)}', 'error')
             return redirect(url_for('dashboard'))
 
-        # Create temporary file
-        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.jpg')
+        # Create temporary file in configured temp directory
+        tmp_file = tempfile.NamedTemporaryFile(
+            delete=False, 
+            suffix='.jpg',
+            dir=TEMP_DIR
+        )
         tmp_file_path = tmp_file.name
         file.save(tmp_file_path)
         tmp_file.close()

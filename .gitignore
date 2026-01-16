@@ -6,3 +6,4 @@ venv/
 .env
 .cursorignore
 REFACTORING_SUMMARY.MD
+RESOURCE_REQUIREMENTS.MD
