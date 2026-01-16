@@ -1,6 +1,13 @@
+<h1>Creators: Animesh Patra and Soham Ganguly
+</h1>
+
 ![Banner](static/images/first_look.png)
+### 🔗 Live Demo
+Demo video of the website: https://www.youtube.com/watch?v=LM9doDIdOm0
+
+
 <h2>Overview</h2>
-<p>The Alzheimer's Detection Website is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload MRI scan images for analysis and provides reliable classification into categories such as:</p>
+<p>MemoCare is an intuitive platform designed to aid in the detection and classification of Alzheimer's disease using deep learning models. The site enables users to upload MRI scan images for analysis and provides reliable classification into categories such as:</p>
 <ul>
     <li>Non-Demented</li>
     <li>Very Mild Demented</li>
@@ -23,6 +30,7 @@
     <li><strong>Medical Data Input:</strong> Users can enter medical data (e.g., age, medical history, etc.) for analysis.</li>
     <li><strong>Classification Results:</strong> The site provides accurate classification results from both the MRI scan and medical data models.</li>
     <li><strong>PDF Generation:</strong> Based on the medical data provided, users can generate a detailed PDF report summarizing the classification results and analysis.</li>
+    <li><strong>Get Help Page:</strong> Helps patients belonging to a weaker economical class or requiring some sort of aid to directly connect with local or international charity organizations.
     <li><strong>User-Friendly Interface:</strong> Built with Flask and Jinja2, the website is simple and intuitive to navigate.</li>
     <li><strong>Robust Models:</strong> Powered by deep learning models trained on an extensive dataset of MRI scans and medical data.</li>
 </ul>
@@ -67,6 +75,47 @@
 <p>The dataset can be found at the following link: 
 <a href="https://www.kaggle.com/datasets/raihannaufalramadhan/alzheimer-data">MRI Scan Dataset on Kaggle</a></p>
 
+<h2>Accuracy , Precision and Recall</h2>
+
+<h4>Alzheimer Prediction Model</h4>
+
+**Accuracy** : `95.81%`
+
+**Label Legend**:  
+- `0` → Negative for Alzheimer’s  
+- `1` → Positive for Alzheimer’s
+
+### 📊 Classification Report
+
+| Class | Precision | Recall | F1-Score | Support |
+|-------|-----------|--------|----------|---------|
+| 0 (No Alzheimer’s) | 0.96 | 0.98 | 0.97 | 277 |
+| 1 (Positive Alzheimer’s) | 0.96 | 0.92 | 0.94 | 153 |
+
+**Overall Accuracy**: `0.96`  
+**Macro Average**: `Precision: 0.96`, `Recall: 0.95`, `F1-Score: 0.95`  
+**Weighted Average**: `Precision: 0.96`, `Recall: 0.96`, `F1-Score: 0.96`
+
+<h4>Dementia Detection Model </h4>
+
+**Test Accuracy**:93.24%
+
+| Class Label | Description        | Precision | Recall | F1-Score | Support |
+| ----------- | ------------------ | --------- | ------ | -------- | ------- |
+| 0           | Non-Demented       | 0.97      | 0.93   | 0.95     | 717     |
+| 1           | Very Mild Demented | 0.84      | 1.00   | 0.91     | 52      |
+| 2           | Mild Demented      | 0.99      | 0.90   | 0.94     | 2560    |
+| 3           | Moderate Demented  | 0.86      | 0.98   | 0.91     | 1792    |
+
+
+### Averages
+
+**Macro Avg:**
+Precision: 0.91, Recall: 0.95, F1-Score: 0.93
+
+**Weighted Avg:**
+Precision: 0.94, Recall: 0.93, F1-Score: 0.93
+        
 <h2>Technologies Used</h2>
 <ul>
     <li><strong>Backend:</strong> Flask framework with Jinja2 template engine.</li>
