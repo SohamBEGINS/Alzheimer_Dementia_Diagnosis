@@ -1,5 +1,8 @@
 temp_save/
 test.py
 venv/
+.venv/
 .vscode/
 .env
+.cursorignore
+REFACTORING_SUMMARY.MD
