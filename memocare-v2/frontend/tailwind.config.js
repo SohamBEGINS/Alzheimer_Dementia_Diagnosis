@@ -6,14 +6,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      fontFamily: {
+        'display': ['"Dela Gothic One"', 'cursive'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -25,9 +22,13 @@ export default {
           DEFAULT: "rgba(255, 255, 255, 0.05)",
           foreground: "hsl(var(--card-foreground))",
         },
-      },
-      backgroundImage: {
-        'antigravity-gradient': 'radial-gradient(circle at top right, #1e1b4b 0%, #020617 40%, #000000 100%)',
+        // Dashboard theme colors
+        'cream': '#f5f5f0',
+        'ink': '#1a1a1a',
+        'ink-light': '#555555',
+        'mri-cyan': '#06b6d4',
+        'assess-amber': '#f59e0b',
+        'page-dark': '#0a0a0c',
       },
       animation: {
         "float": "float 6s ease-in-out infinite",

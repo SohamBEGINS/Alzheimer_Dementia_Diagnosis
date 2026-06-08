@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,12 +13,24 @@
     --card-foreground: 210 40% 98%;
   }
 
+  /* Neutral reset — each page controls its own background */
   body {
-    @apply bg-antigravity-gradient text-foreground min-h-screen overflow-x-hidden;
+    @apply min-h-screen overflow-x-hidden;
+    background-color: #0a0a0c;
+    margin: 0;
+    padding: 0;
   }
 }
 
-/* Glassmorphism utility class */
+/* Glassmorphism utility */
 .glass-panel {
-  @apply bg-card backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-2xl;
+  background-color: rgba(255,255,255,0.05);
+  @apply backdrop-blur-xl border border-white/10 rounded-2xl;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+}
+
+/* Dashboard page light background override */
+.dashboard-page {
+  background-color: #0a0a0c;
+  min-height: 100vh;
 }
