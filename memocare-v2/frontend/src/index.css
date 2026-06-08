@@ -1,0 +1,23 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 210 40% 98%;
+  }
+
+  body {
+    @apply bg-antigravity-gradient text-foreground min-h-screen overflow-x-hidden;
+  }
+}
+
+/* Glassmorphism utility class */
+.glass-panel {
+  @apply bg-card backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-2xl;
+}

@@ -144,6 +144,17 @@ Precision: 0.94, Recall: 0.93, F1-Score: 0.93
     <li><strong>models/:</strong> Pre-trained deep learning models for MRI scan and medical data classification.</li>
     <li><strong>data/:</strong> Organized dataset for training and testing, including MRI scan images and medical records.</li>
 </ul>
+
+<h2>🚀 Deployment & Development (using uv)</h2>
+<p>This project uses <a href="https://docs.astral.sh/uv/">uv</a> for fast, reliable dependency management. To set up the environment:</p>
+<pre><code># Install dependencies
+uv sync
+
+# Run the application
+uv run application.py
+</code></pre>
+
+<p><strong>Note on Large Models:</strong> The PCA model (<code>pca_model.pkl</code>) is ~750MB. The application uses memory mapping (<code>mmap_mode='r'</code>) to load this model efficiently without consuming excessive RAM, enabling deployment on platforms with limited resources.</p>
 <h2>🆘 Get Help Page</h2>
 
 ![Get Help Page Screenshot](static/images/get_help.png)

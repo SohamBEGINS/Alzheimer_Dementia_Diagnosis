@@ -245,7 +245,8 @@ def load_pca_model():
                     if not os.path.exists(pca_path):
                         raise FileNotFoundError(f"PCA model not found: {pca_path}")
                     
-                    _model_cache['pca'] = joblib.load(pca_path)
+                    # Use memory mapping for the large PCA model to save RAM
+                    _model_cache['pca'] = joblib.load(pca_path, mmap_mode='r')
                     logger.info("PCA model loaded successfully")
                 except Exception as e:
                     error_msg = f"Error loading PCA model: {str(e)}"
