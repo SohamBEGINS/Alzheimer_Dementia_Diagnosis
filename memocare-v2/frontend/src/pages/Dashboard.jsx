@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/layout/Navbar'
 import PathCard from '../components/dashboard/PathCard'
+import { Particles } from '../components/ui/particles'
 
 const BrainIcon = () => (
   <svg viewBox="0 0 64 64" width="52" height="52" fill="none" stroke="#06b6d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -24,14 +25,33 @@ const ChecklistIcon = () => (
 export default function Dashboard() {
   return (
     <div style={{
+      position: 'relative',
       minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
       backgroundColor: '#0a0a0c',
+      overflow: 'hidden',
     }}>
-      <Navbar userName="John" />
+      
+      {/* Interactive Particle Background */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+        <Particles
+          quantity={200}
+          ease={80}
+          color="#ffffff"
+          refresh
+        />
+      </div>
 
-      {/* Main content */}
+      {/* Foreground Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}>
+        <Navbar userName="John" />
+
+        {/* Main content */}
       <div style={{
         flex: 1,
         display: 'flex',
@@ -79,15 +99,20 @@ export default function Dashboard() {
         <p style={{
           marginTop: '40px',
           fontSize: '14px',
-          color: '#555',
+          color: '#888',
           textAlign: 'center',
           maxWidth: '600px',
           fontFamily: 'Space Mono, monospace',
           lineHeight: '1.7',
+          backgroundColor: 'rgba(10, 10, 12, 0.7)',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          backdropFilter: 'blur(4px)',
         }}>
           ⚠️ MemoCare is an assistive tool and does not replace professional medical diagnosis. Always consult a licensed physician.
         </p>
       </div>
+    </div>
     </div>
   )
 }
