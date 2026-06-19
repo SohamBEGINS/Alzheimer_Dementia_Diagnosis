@@ -1,0 +1,20 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "refactoring frontend",
+  "homepage": "https://github.com/SohamBEGINS/alzheimer-s_detection#readme",
+  "bugs": {
+    "url": "https://github.com/SohamBEGINS/alzheimer-s_detection/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SohamBEGINS/alzheimer-s_detection.git"
+  },
+  "license": "ISC",
+  "author": "Soham and Animesh",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
