@@ -8,3 +8,5 @@ venv/
 REFACTORING_SUMMARY.MD
 RESOURCE_REQUIREMENTS.MD
 .cursor
+memocare-v2/frontend/node_modules/
+node_modules/
